@@ -13,3 +13,9 @@ export interface IMyMovieProps {
     onDeleteMovie: (id: string) => void,
     onEditMovie: (value: IMoviesProps) => void
 }
+
+export interface IUpcomingMoviesProps {
+    movies: IMoviesProps[],
+    onAddMovie: (movie: IMoviesProps) => void
+    onWatched: (id: string) => void
+}

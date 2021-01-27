@@ -9,9 +9,11 @@ import {
     Button,
     Modal,
     Form,
-    InputNumber
+    InputNumber,
+    Pagination
 } from "antd"
 import { IMoviesProps, IMyMovieProps } from './types'
+import { EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import { FormLayout } from 'antd/lib/form/Form'
 
 const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
@@ -44,8 +46,8 @@ const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
         setIsModalEditVisible(prev => !prev)
     }
 
-    const showOpenModal = (book : IMoviesProps) => {
-        setSelectedMovie(book)
+    const showOpenModal = (movie : IMoviesProps) => {
+        setSelectedMovie(movie)
         setIsModalVisible(true)    
     }
 
@@ -129,28 +131,25 @@ const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
                     gutter: 4,
                     xs: 1,
                     sm: 2,
-                    md: 4,
+                    md: 3,
                     lg: 4,
                     xl: 4,
-                    xxl: 3,
+                    xxl: 5,
                 }}
-                size="large"
                 pagination={{pageSize: 8}}
+                size="large"
                 dataSource={filteredMovie}
                 renderItem={movie => (
                     <List.Item>
                         <Card
                             hoverable
                             cover={<img alt="cover" height={350} src={movie.image} />}
+                            actions={[
+                                <DeleteOutlined key="delete" onClick={() => handleDeleteMovie(movie.id)} />,
+                                <EyeOutlined onClick={() => showOpenModal(movie)} />
+                              ]}
                         >
-                            {movie.title}
-                            <Button 
-                                style={{alignContent: "center"}} 
-                                type="primary"
-                                onClick={() => showOpenModal(movie)}
-                            
-                            >Show Movies</Button>
-                        
+                            <Typography.Text style={{textAlign: "center"}}>{movie.title}</Typography.Text> 
                         </Card>
                         
                     </List.Item>
@@ -223,7 +222,7 @@ const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
                     </Form.Item>
                 </Form>
             </Modal>
-          
+            {/* <Pagination defaultCurrent={1} pageSize={1} total={50} /> */}
         </Row>
         </>
     )

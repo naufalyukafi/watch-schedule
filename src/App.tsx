@@ -4,6 +4,7 @@ import {Layout, Menu} from "antd"
 import {useLocation, Link, Switch, Route} from "react-router-dom"
 import { IMoviesProps } from './types';
 import MyMovie from "./MyMovie"
+import UpcomingMovies from "./UpcomingMovies"
 
 function App() {
   const [movies, setMovies] = useState<IMoviesProps []>([
@@ -34,6 +35,24 @@ function App() {
       reasons: "waching for motivation",
       duration: 2,
       watchSchedule: 20
+    },
+    {
+      id: nanoid(),
+      title: "Black Clover Episode 161",
+      hasBeenWatched: true,
+      image: "https://www.inspiredtraveler.ca/wp-content/uploads/2020/09/Black-Clover.jpg",
+      reasons: "Anime For Motivation",
+      duration: 1,
+      watchSchedule: 22
+    },
+    {
+      id: nanoid(),
+      title: "Kemono Jihen Episode 03 [Takarir Indonesia]",
+      hasBeenWatched: false,
+      image: "https://apps.owibu.com/berita/banner/1593657721anime-kemono-jihen-akan-tayang-2021.jpg",
+      reasons: "Anime For Relax",
+      duration: 1,
+      watchSchedule: 10
     },
   ])
 
@@ -89,6 +108,13 @@ function App() {
               onDeleteMovie={handleDeleteMovie}
               onEditMovie={handleEditMovie}
             />
+         </Route>
+         <Route path="/upcomingmovies">
+           <UpcomingMovies 
+              movies={movies}
+              onAddMovie={handleAddMovie}
+              onWatched={handleWatched}
+           />
          </Route>
        </Switch>
      </Layout.Content>
