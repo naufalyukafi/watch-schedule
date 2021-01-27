@@ -143,7 +143,7 @@ const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
                     <List.Item>
                         <Card
                             hoverable
-                            cover={<img alt="cover" height={350} src={movie.image} />}
+                            cover={<img alt="cover" height={350} src={movie.image} style={{objectFit: "cover"}}  />}
                             actions={[
                                 <DeleteOutlined key="delete" onClick={() => handleDeleteMovie(movie.id)} />,
                                 <EyeOutlined onClick={() => showOpenModal(movie)} />
@@ -163,7 +163,7 @@ const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
             >
                 {selectedMovie && 
                 <>
-                    <img height={350} width={250} src={selectedMovie.image} alt={selectedMovie.title} style={{ textAlign: "center"}} />
+                    <img height={350} width={250} src={selectedMovie.image} alt={selectedMovie.title} style={{objectFit: "cover"}} />
                     <Typography.Title level={4}>Title: {selectedMovie.title}</Typography.Title>
                     <Typography.Title level={4}>Duration: {selectedMovie.duration} jam</Typography.Title>
                     <Typography.Title level={4}>Reations: {selectedMovie.reasons}</Typography.Title>

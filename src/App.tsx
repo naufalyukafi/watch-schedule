@@ -54,6 +54,15 @@ function App() {
       duration: 1,
       watchSchedule: 10
     },
+    {
+      id: nanoid(),
+      title: "The Last Naruto",
+      hasBeenWatched: true,
+      image: "https://i.pinimg.com/originals/cb/0f/22/cb0f229cdbbfd1b47da93d875dc6ca01.jpg",
+      reasons: "Anime For Relax",
+      duration: 1,
+      watchSchedule: 9
+    },
   ])
 
   //delete movie
