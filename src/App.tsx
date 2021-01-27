@@ -29,53 +29,45 @@ function App() {
     {
       id: nanoid(),
       title: "Negeri 5 Menara Web Series",
-      hasBeenWatched: true,
-      image: "https://upload.wikimedia.org/wikipedia/id/3/34/N5M-POSTER-FIN.jpg",
-      reasons: "waching for motivation",
-      duration: 2,
-      watchSchedule: 20
-    },
-
-    {
-      id: nanoid(),
-      title: "Negeri 5 Menara Web Series",
-      hasBeenWatched: true,
-      image: "https://upload.wikimedia.org/wikipedia/id/3/34/N5M-POSTER-FIN.jpg",
-      reasons: "waching for motivation",
-      duration: 2,
-      watchSchedule: 20
-    },
-
-    {
-      id: nanoid(),
-      title: "Negeri 5 Menara Web Series",
-      hasBeenWatched: true,
-      image: "https://upload.wikimedia.org/wikipedia/id/3/34/N5M-POSTER-FIN.jpg",
-      reasons: "waching for motivation",
-      duration: 2,
-      watchSchedule: 20
-    },
-
-    {
-      id: nanoid(),
-      title: "Negeri 5 Menara Web Series",
-      hasBeenWatched: true,
-      image: "https://upload.wikimedia.org/wikipedia/id/3/34/N5M-POSTER-FIN.jpg",
-      reasons: "waching for motivation",
-      duration: 2,
-      watchSchedule: 20
-    },
-
-    {
-      id: nanoid(),
-      title: "Negeri 5 Menara Web Series",
-      hasBeenWatched: true,
+      hasBeenWatched: false,
       image: "https://upload.wikimedia.org/wikipedia/id/3/34/N5M-POSTER-FIN.jpg",
       reasons: "waching for motivation",
       duration: 2,
       watchSchedule: 20
     },
   ])
+
+  //delete movie
+  const handleDeleteMovie = (id: string) => {
+    setMovies(movies.filter(movie => (
+      movie.id !== id
+    ))) 
+  }
+
+  //edit movie
+  const handleEditMovie = (editedBook: IMoviesProps) => {
+    setMovies(movies.map(movie => (
+      movie.id === editedBook.id ? editedBook : movie
+    )))
+  }
+
+  //add movie
+  const handleAddMovie = (newBook: IMoviesProps) => {
+    setMovies([...movies, newBook])
+  }
+
+  //adding to my movie page
+  const handleWatched = (id: string) => {
+    const tempMovie = [...movies]
+    var index = tempMovie.findIndex(movie => (
+      movie.id === id
+    ))
+    tempMovie[index].hasBeenWatched = true
+    setMovies(tempMovie)
+  }
+
+
+
   const {pathname} = useLocation()
   return (
    <Layout>
@@ -94,6 +86,8 @@ function App() {
          <Route path="/mymovie">
            <MyMovie 
               movies={movies}
+              onDeleteMovie={handleDeleteMovie}
+              onEditMovie={handleEditMovie}
             />
          </Route>
        </Switch>

@@ -1,10 +1,129 @@
-import React from 'react'
-import {Row, Col, List, Card} from "antd"
-import { IMyMovieProps } from './types'
+import React, {useState} from 'react'
+import {
+    Row, 
+    Col, 
+    List, 
+    Card, 
+    Typography, 
+    Input as AntdInput, 
+    Button,
+    Modal,
+    Form,
+    InputNumber
+} from "antd"
+import { IMoviesProps, IMyMovieProps } from './types'
+import { FormLayout } from 'antd/lib/form/Form'
 
-const MyMovie = ({movies} : IMyMovieProps) => {
+const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
+    const [searchValue, setSearchValue] = useState<string>("")
+    
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [isModalEditVisible, setIsModalEditVisible] = useState<boolean>(false);
+    
+    const [selectedMovie, setSelectedMovie] = useState<IMoviesProps | null>(null)
+
+    const [titleValue, setTitleValue] = useState<string>("")
+    const [imageValue, setImageValue] = useState<string>("")
+    const [durationValue, setDurationValue] = useState<number>(0)
+    const [reasonsValue, setReasonsValue] = useState<string>("")
+    const [watchScheduleValue, setWathcScheduleValue] = useState<number>(0)
+
+    const [formLayout, setFormLayout] = useState<FormLayout>("vertical");
+
+    const handleSearchValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value)
+    }
+    const filteredMovie = movies.filter(movie => (
+        movie.title.toLowerCase().includes(searchValue.toLowerCase()) && movie.hasBeenWatched
+    ))
+
+    const showModal = () => {
+        setIsModalVisible(prev => !prev)
+    }
+    const showModalEdit = () => {
+        setIsModalEditVisible(prev => !prev)
+    }
+
+    const showOpenModal = (book : IMoviesProps) => {
+        setSelectedMovie(book)
+        setIsModalVisible(true)    
+    }
+
+    const handleDeleteMovie = (id: string) => {
+        onDeleteMovie(id)
+        setIsModalVisible(false)
+        setSelectedMovie(null)
+    }
+
+    const handleShowEditModal = () => {
+        setFormLayout("horizontal")
+        setIsModalEditVisible(true)
+        if(selectedMovie){
+            setTitleValue(selectedMovie.title)
+            setImageValue(selectedMovie.image)
+            setDurationValue(selectedMovie.duration)
+            setReasonsValue(selectedMovie.reasons)
+            setWathcScheduleValue(selectedMovie.watchSchedule)
+        }
+    }
+
+    const handleEditMovie = () => {
+        const editedMovie = {
+            id: selectedMovie?.id ?? "",
+            title: titleValue,
+            image: imageValue,
+            duration: durationValue,
+            reasons: reasonsValue,
+            watchSchedule: watchScheduleValue,
+            hasBeenWatched: true
+        }
+        onEditMovie(editedMovie)
+        setSelectedMovie(editedMovie)
+        setIsModalEditVisible(false)
+    }
+
+    const formItemLayout =
+    formLayout === 'vertical'
+      ? {
+          labelCol: { span: 4 },
+          wrapperCol: { span: 14 },
+        }
+      : null;
+
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTitleValue(event.target.value)
+    }
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setImageValue(event.target.value)
+    }
+    const handleDurationChange = (value: string | number | null | undefined) => {
+        if(typeof value === "number") setDurationValue(value)
+    }
+    const handleReasonsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setReasonsValue(event.target.value)
+    }
+    const handleWatchChange =  (value: string | number | null | undefined) => {
+        if(typeof value === "number") setWathcScheduleValue(value)
+    }
+
     return (
-        <Row>
+        <>
+        <Row align="middle" style={{marginBottom: 20}}>
+                <Col style={{marginRight: 10}}>
+                    <Typography.Title level={3}>My Movie </Typography.Title>
+                </Col>
+                <Col>     
+                    <AntdInput
+                        style={{width: "100%"}}
+                        placeholder="Searching ..."
+                        allowClear
+                        size="large"
+                        onChange={handleSearchValue}
+                        value={searchValue}
+                    />  
+                </Col>
+            </Row>
+        <Row> 
             <List 
                 grid={{
                     gutter: 4,
@@ -17,18 +136,96 @@ const MyMovie = ({movies} : IMyMovieProps) => {
                 }}
                 size="large"
                 pagination={{pageSize: 8}}
-                dataSource={movies}
+                dataSource={filteredMovie}
                 renderItem={movie => (
                     <List.Item>
                         <Card
                             hoverable
                             cover={<img alt="cover" height={350} src={movie.image} />}
-                        >Card content</Card>
+                        >
+                            {movie.title}
+                            <Button 
+                                style={{alignContent: "center"}} 
+                                type="primary"
+                                onClick={() => showOpenModal(movie)}
+                            
+                            >Show Movies</Button>
+                        
+                        </Card>
+                        
                     </List.Item>
-                    
                 )}
+                
             />
+            <Modal
+                visible={isModalVisible}
+                onOk={showModal}
+                onCancel={showModal}
+            >
+                {selectedMovie && 
+                <>
+                    <img height={350} width={250} src={selectedMovie.image} alt={selectedMovie.title} style={{ textAlign: "center"}} />
+                    <Typography.Title level={4}>Title: {selectedMovie.title}</Typography.Title>
+                    <Typography.Title level={4}>Duration: {selectedMovie.duration} jam</Typography.Title>
+                    <Typography.Title level={4}>Reations: {selectedMovie.reasons}</Typography.Title>
+                    <Typography.Title level={4}>Watch Schedule: {selectedMovie.watchSchedule}</Typography.Title>
+                    <Button type="primary" danger style={{marginRight: 5}} onClick={() => handleDeleteMovie(selectedMovie.id)}>Delete</Button>
+                    <Button type="primary" onClick={handleShowEditModal}>Edit</Button>
+                </>
+                }
+            </Modal>
+            <Modal
+                visible={isModalEditVisible}
+                onOk={showModalEdit}
+                onCancel={showModalEdit}
+                title={selectedMovie?.title}
+
+            >
+                <Form
+                    {...formItemLayout}
+                    layout={formLayout}
+                >
+                    <Form.Item label="Title">
+                        <AntdInput
+                            value={titleValue}
+                            allowClear
+                            onChange={handleTitleChange}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Image">
+                        <AntdInput
+                            value={imageValue}
+                            allowClear
+                            onChange={handleImageChange}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Duration">
+                        <InputNumber 
+                            value={durationValue}
+                            onChange={handleDurationChange}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Reasons">
+                        <AntdInput
+                            allowClear
+                            value={reasonsValue}
+                            onChange={handleReasonsChange}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Watch Schedule">
+                        <InputNumber 
+                            value={watchScheduleValue}
+                            onChange={handleWatchChange}
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" onClick={handleEditMovie}>Edit</Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
+          
         </Row>
+        </>
     )
 }
 

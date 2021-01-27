@@ -9,5 +9,7 @@ export interface IMoviesProps {
 }
 
 export interface IMyMovieProps {
-    movies: IMoviesProps[]
+    movies: IMoviesProps[],
+    onDeleteMovie: (id: string) => void,
+    onEditMovie: (value: IMoviesProps) => void
 }
