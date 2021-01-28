@@ -184,41 +184,46 @@ const MyMovie = ({movies, onDeleteMovie, onEditMovie} : IMyMovieProps) => {
                     {...formItemLayout}
                     layout={formLayout}
                 >
-                    <Form.Item label="Title">
+                    <Form.Item label="Title" htmlFor="Title">
                         <AntdInput
                             value={titleValue}
                             allowClear
                             onChange={handleTitleChange}
+                            id="Title"
                         />
                     </Form.Item>
-                    <Form.Item label="Image">
+                    <Form.Item label="Image" htmlFor="Image">
                         <AntdInput
                             value={imageValue}
                             allowClear
                             onChange={handleImageChange}
+                            id="Image"
                         />
                     </Form.Item>
-                    <Form.Item label="Duration">
+                    <Form.Item label="Duration" htmlFor="Duration">
                         <InputNumber 
                             value={durationValue}
                             onChange={handleDurationChange}
+                            id="Duration"
                         />
                     </Form.Item>
-                    <Form.Item label="Reasons">
+                    <Form.Item label="Reasons" htmlFor="Reasons">
                         <AntdInput
                             allowClear
                             value={reasonsValue}
                             onChange={handleReasonsChange}
+                            id="Reasons"
                         />
                     </Form.Item>
-                    <Form.Item label="Watch Schedule">
+                    <Form.Item label="Watch Schedule" htmlFor="Watch Schedule">
                         <InputNumber 
                             value={watchScheduleValue}
                             onChange={handleWatchChange}
+                            id="Watch Schedule"
                         />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" onClick={handleEditMovie}>Edit</Button>
+                        <Button type="primary" onClick={handleEditMovie}>Edit Movie</Button>
                     </Form.Item>
                 </Form>
             </Modal>
