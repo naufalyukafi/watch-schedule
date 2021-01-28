@@ -26,7 +26,7 @@ describe("App", () => {
     expect(history.location.pathname).toEqual("/upcomingmovies")
     userEvent.click(screen.getByRole("button", {name: "Watch a new movie"}))
   
-    userEvent.type(screen.getByRole("textbox", {name: "Title"}), "Majangstories Title")
+    userEvent.type (screen.getByRole("textbox", {name: "Title"}), "Majangstories Title")
     userEvent.type(screen.getByRole("textbox", {name: "Image"}), "https://i.pinimg.com/originals/cb/0f/22/cb0f229cdbbfd1b47da93d875dc6ca01.jpg")
     userEvent.type(screen.getByRole("spinbutton", {name: "Duration"}), "2")
     userEvent.type(screen.getByRole("textbox", {name: "Reasons"}), "Best Movie")
@@ -34,7 +34,6 @@ describe("App", () => {
     userEvent.click(screen.getByRole("button", {name: "Submit"}))
   
     userEvent.click(screen.getAllByRole("button", {name: "Done"})[2])
-    screen.debug(null, 30000)
   });
   
   it('should edit mymovie card', () => {
@@ -49,13 +48,10 @@ describe("App", () => {
     userEvent.click(screen.getAllByRole("img", {name: "eye"})[1])
     userEvent.click(screen.getByRole("button", {name: "Edit"}))
     
-    userEvent.type(screen.getByRole("textbox", {name: "Title"}), "haloo")
-    userEvent.type(screen.getByRole("textbox", {name: "Image"}), "https://i.pinimg.com/originals/cb/0f/22/cb0f229cdbbfd1b47da93d875dc6ca01.jpg")
-    userEvent.type(screen.getByRole("spinbutton", {name: "Duration"}), "2")
-    userEvent.type(screen.getByRole("textbox", {name: "Reasons"}), "Best Movie")
-    userEvent.type(screen.getByRole("spinbutton", {name:"Watch Schedule"}), "16")
+    userEvent.type(screen.getByRole("textbox", {name: "Title"}), "haloo paijo")
     userEvent.click(screen.getByRole("button", {name: "Edit Movie"}))
     userEvent.click(screen.getByRole("button", {name: "OK"}))
+    screen.debug(null, 30000)
     
   }) 
   
