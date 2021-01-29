@@ -5,6 +5,8 @@ import {useLocation, Link, Switch, Route} from "react-router-dom"
 import { IMoviesProps } from './types';
 import MyMovie from "./MyMovie"
 import UpcomingMovies from "./UpcomingMovies"
+import UploadMovie from './UploadMovie';
+import UploadMov from "./UploadMov"
 
 function App() {
   const [movies, setMovies] = useState<IMoviesProps []>([
@@ -107,6 +109,9 @@ function App() {
           <Menu.Item key="/upcomingmovies">
             <Link to="/upcomingmovies">Upcoming Movies</Link>
           </Menu.Item>
+          <Menu.Item key="/upload">
+            <Link to="/upload">Upload Movie</Link>
+          </Menu.Item>
         </Menu>
      </Layout.Header>
      <Layout.Content style={{ padding: '20px 50px' }}>
@@ -124,6 +129,9 @@ function App() {
               onAddMovie={handleAddMovie}
               onWatched={handleWatched}
            />
+         </Route>
+         <Route path="/upload">
+           <UploadMov />
          </Route>
        </Switch>
      </Layout.Content>
